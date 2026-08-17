@@ -1,0 +1,14 @@
+# --- core backend (required) ---------------------------------------------
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+python-dotenv>=1.0
+
+# --- optional semantic engine (graceful fallback if absent) ----------------
+# Install CPU builds to keep deployments small:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install sentence-transformers
+# Without them the app automatically uses the clearly-labelled
+# "DEMO SEMANTIC MATCHING" concept-lexicon engine.
+# torch ; extra == "semantic"
+# sentence-transformers>=3.0 ; extra == "semantic"

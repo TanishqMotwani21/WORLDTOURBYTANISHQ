@@ -1,0 +1,21 @@
+# Render Blueprint — one-click persistent deployment of the whole product
+# (React frontend + FastAPI backend + SQLite) as ONE web service, one origin.
+#
+# Usage: push this repo to GitHub → Render Dashboard → "New" → "Blueprint" →
+# select the repo. Done. No secrets required.
+services:
+  - type: web
+    name: ai-title-verification
+    runtime: python
+    plan: starter          # free/starter tier runs the demo-concept semantic engine
+    buildCommand: |
+      pip install -r requirements.txt
+      cd frontend && npm ci && npm run build && cd ..
+    startCommand: cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: TV_SEMANTIC_ENGINE
+        value: auto          # falls back to labelled demo engine if ST absent
+      - key: PYTHON_VERSION
+        value: "3.12"
